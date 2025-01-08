@@ -48,6 +48,12 @@ def add_team():
     teams.append(team)
     return redirect(url_for('index'))
 
+@app.route('/delete_team/<float:team_id>', methods=['POST'])
+def delete_team(team_id):
+    global teams
+    teams = [team for team in teams if team['id'] != team_id]
+    return redirect(url_for('index'))
+
 @app.route('/export/<format>')
 def export(format):
     sorted_teams = sort_teams(teams)
