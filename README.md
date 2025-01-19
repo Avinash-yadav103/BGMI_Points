@@ -105,5 +105,5 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Author
 
-Developed by [Your Name](https://github.com/your-username).
+Developed by [Avinash Yadav](https://github.com/Avinash-yadav103).
 
