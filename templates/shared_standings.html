@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shared BGMI Team Standings</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-2xl font-bold mb-4">Shared BGMI Team Standings</h1>
+
+        <table class="min-w-full bg-white">
+            <thead>
+                <tr>
+                    <th class="w-[50px] px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Rank</th>
+                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Team Name</th>
+                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Matches</th>
+                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Position Points</th>
+                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Finish Points</th>
+                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Total Points</th>
+                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Chicken Dinners</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for team in teams %}
+                <tr>
+                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ loop.index }}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 font-medium">{{ team.name }}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ team.matches_played }}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ team.position_points }}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ team.finish_points }}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ team.total_points }}</td>
+                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ team.chicken_dinners }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+

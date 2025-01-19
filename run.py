@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, send_file
+from flask import Flask, render_template, request, redirect, url_for, send_file, jsonify
 from datetime import datetime
 import io
 import csv
@@ -8,11 +8,15 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from openpyxl import Workbook
 from docx import Document
 from docx.shared import Inches
+import secrets
 
 app = Flask(__name__)
 
 # In-memory storage for teams (replace with a database in a real application)
 teams = []
+
+# In-memory storage for shareable links
+shareable_links = {}
 
 def calculate_total_points(position_points, finish_points):
     return position_points + finish_points
@@ -65,6 +69,38 @@ def export(format):
         return export_word(sorted_teams)
     else:
         return "Invalid format", 400
+
+@app.route('/generate_share_link', methods=['POST'])
+def generate_share_link():
+    token = secrets.token_urlsafe(16)
+    shareable_links[token] = sort_teams(teams)
+    share_url = url_for('shared_standings', token=token, _external=True)
+    return jsonify({'share_url': share_url})
+
+@app.route('/shared/<token>')
+def shared_standings(token):
+    if token in shareable_links:
+        shared_teams = shareable_links[token]
+        return render_template('shared_standings.html', teams=shared_teams)
+    else:
+        return "Invalid or expired share link", 404
+    
+# @app.route('/generate_share_link', methods=['POST'])
+# def generate_share_link():
+#     token = secrets.token_urlsafe(16)
+#     shareable_links[token] = sort_teams(teams)
+#     share_url = url_for('shared_standings', token=token, _external=True)
+#     return jsonify({'share_url': share_url})
+
+# @app.route('/shared/<token>')
+# def shared_standings(token):
+#     if token in shareable_links:
+#         shared_teams = shareable_links[token]
+#         return render_template('shared_standings.html', teams=shared_teams)
+#     else:
+#         return "Invalid or expired share link", 404
+
+
 
 def export_pdf(teams):
     buffer = io.BytesIO()
@@ -165,3 +201,4 @@ def export_word(teams):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
