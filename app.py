@@ -17,7 +17,6 @@ teams = []
 
 # In-memory storage for shareable links
 shareable_links = {}
-
 def calculate_total_points(position_points, finish_points):
     return position_points + finish_points
 
