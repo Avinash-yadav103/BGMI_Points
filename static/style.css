@@ -1,0 +1,187 @@
+/* Ice Theme Variables */
+:root {
+    --ice-primary: #a8d5ff;
+    --ice-secondary: #80b3ff;
+    --ice-accent: #5691ff;
+    --frost-white: rgba(255, 255, 255, 0.1);
+    --ice-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    --ice-border: 1px solid rgba(255, 255, 255, 0.18);
+    --ice-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1));
+  }
+  
+  /* Main Background */
+  body {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+                url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-4ZmXayrX6wTJYqlMlRJcsNSE3U4xGh.png') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    color: white;
+  }
+  
+  /* Glassmorphic Container */
+  .container {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: var(--ice-border);
+    box-shadow: var(--ice-shadow);
+  }
+  
+  /* Icy Form Inputs */
+  input[type="text"],
+  input[type="number"] {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    transition: all 0.3s ease;
+  }
+  
+  input[type="text"]:focus,
+  input[type="number"]:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--ice-primary);
+    box-shadow: 0 0 15px rgba(168, 213, 255, 0.3);
+  }
+  
+  /* Ice Button Effect */
+  button, 
+  a[href]:not(.plain) {
+    background: var(--ice-gradient);
+    backdrop-filter: blur(5px);
+    border: var(--ice-border);
+    box-shadow: var(--ice-shadow);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  button::before,
+  a[href]:not(.plain)::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    transform: rotate(45deg);
+    animation: ice-shine 3s infinite;
+  }
+  
+  @keyframes ice-shine {
+    0% {
+      left: -50%;
+    }
+    100% {
+      left: 150%;
+    }
+  }
+  
+  /* Glassmorphic Table */
+  table {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    border-radius: 15px;
+    border: var(--ice-border);
+    overflow: hidden;
+  }
+  
+  th {
+    background: rgba(168, 213, 255, 0.1);
+    backdrop-filter: blur(5px);
+    color: var(--ice-primary);
+  }
+  
+  tr:hover {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+  }
+  
+  /* Enhanced Modal */
+  .modal-backdrop {
+    backdrop-filter: blur(8px);
+  }
+  
+  .modal {
+    background: rgba(45, 45, 45, 0.9);
+    backdrop-filter: blur(20px);
+    border: var(--ice-border);
+    box-shadow: var(--ice-shadow);
+  }
+  
+  /* Ice Crystal Effects */
+  .crystal-effect {
+    position: relative;
+  }
+  
+  .crystal-effect::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    pointer-events: none;
+  }
+  
+  /* Frost Hover Effect */
+  .frost-hover {
+    transition: all 0.3s ease;
+  }
+  
+  .frost-hover:hover {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(168, 213, 255, 0.2);
+  }
+  
+  /* Share Options */
+  .share-option {
+    background: var(--ice-gradient);
+    backdrop-filter: blur(5px);
+    border: var(--ice-border);
+    transition: all 0.3s ease;
+  }
+  
+  .share-option:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(168, 213, 255, 0.3);
+  }
+  
+  /* Copy Link Input */
+  .copy-link-input {
+    background: rgba(30, 30, 30, 0.8);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(168, 213, 255, 0.2);
+    color: white;
+  }
+  
+  .copy-link-input:focus {
+    border-color: var(--ice-primary);
+    box-shadow: 0 0 15px rgba(168, 213, 255, 0.2);
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .container {
+      margin: 10px;
+      padding: 15px;
+    }
+    
+    table {
+      font-size: 0.875rem;
+    }
+  }
+
+  
