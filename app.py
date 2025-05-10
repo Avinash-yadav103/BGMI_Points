@@ -24,6 +24,10 @@ def sort_teams(teams):
     return sorted(teams, key=lambda x: x['total_points'], reverse=True)
 
 @app.route('/')
+def landing_page():
+    return render_template('landing.html')
+
+@app.route('/dashboard')
 def index():
     sorted_teams = sort_teams(teams)
     return render_template('index.html', teams=sorted_teams)

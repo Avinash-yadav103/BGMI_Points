@@ -1,2 +1,4 @@
 # Ignore Python virtual environment folder
 venv/
+
+./venv

@@ -1,0 +1,985 @@
+-.344.466-.182.8
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BGMI Tournament Management | Comprehensive eSports Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        :root {
+            --primary-color: #00c6ff;
+            --secondary-color: #8a2be2;
+            --accent-color: #ff4d4d;
+            --bg-dark: #0a0e17;
+            --bg-card: #131c2e;
+            --text-primary: #ffffff;
+            --text-secondary: #b8c7e0;
+        }
+        
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            background-image: 
+                radial-gradient(circle at 25% 15%, rgba(0, 198, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 85%, rgba(138, 43, 226, 0.1) 0%, transparent 50%),
+                url('https://i.imgur.com/qIxfvXU.png');
+            background-blend-mode: screen;
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        
+        h1, h2, h3, .logo {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 1300px;
+        }
+        
+        /* Advanced feature card styling */
+        .feature-card {
+            background: rgba(19, 28, 46, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 5px;
+            border: 1px solid rgba(0, 198, 255, 0.2);
+            transition: all 0.3s ease;
+            padding: 1.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            transform-origin: left;
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 198, 255, 0.15);
+            border-color: rgba(0, 198, 255, 0.4);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.25rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+        
+        .hero-section {
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding: 2rem 0;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(0deg, rgba(10, 14, 23, 1) 0%, rgba(10, 14, 23, 0) 100%);
+            z-index: -1;
+        }
+
+        /* Improved Gaming Button Styles */
+        .gradient-button {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 15px 28px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            border: none;
+            text-transform: uppercase;
+            display: inline-block;
+            font-size: 0.9rem;
+            margin: 0.5rem;
+            box-shadow: 0 0 15px rgba(0, 198, 255, 0.5);
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .gradient-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            transition: opacity 0.3s ease-in-out;
+            z-index: -1;
+            opacity: 0;
+        }
+        
+        .gradient-button:hover::before {
+            opacity: 1;
+        }
+        
+        .gradient-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 198, 255, 0.7);
+        }
+        
+        .gradient-button-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 10px rgba(0, 198, 255, 0.3), inset 0 0 10px rgba(0, 198, 255, 0.3);
+        }
+        
+        .gradient-button-outline:hover {
+            background: rgba(0, 198, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 198, 255, 0.5), inset 0 0 15px rgba(0, 198, 255, 0.5);
+        }
+        
+        /* Improved News Tab Styling */
+        .news-tab {
+            cursor: pointer;
+            padding: 12px 24px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            color: var(--text-secondary);
+        }
+        
+        .news-tab.active {
+            border-bottom: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .news-tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .news-tab:hover::after {
+            transform: translateX(0);
+        }
+        
+        .news-content {
+            display: none;
+            padding: 1.5rem 0;
+        }
+        
+        .news-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        /* Enhanced Player Cards */
+        .player-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(8px);
+            border-radius: 5px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 198, 255, 0.2);
+        }
+        
+        .player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 198, 255, 0.3);
+            border-color: rgba(0, 198, 255, 0.5);
+        }
+        
+        /* Stats Card */
+        .stats-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(8px);
+            border-radius: 5px;
+            border: 1px solid rgba(0, 198, 255, 0.2);
+            padding: 1.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        /* Frost Glass Effect */
+        .frost-glass {
+            background: rgba(19, 28, 46, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0, 198, 255, 0.2);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .frost-glass:hover {
+            border-color: rgba(0, 198, 255, 0.5);
+            box-shadow: 0 5px 15px rgba(0, 198, 255, 0.2);
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 198, 255, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 198, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 198, 255, 0); }
+        }
+        
+        /* Tournament Timeline */
+        .tournament-timeline {
+            position: relative;
+            padding: 1rem 0;
+        }
+        
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            position: absolute;
+            left: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 0 0 rgba(0, 198, 255, 0.7);
+            animation: pulse 2s infinite;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 32px;
+            border-left: 2px solid rgba(0, 198, 255, 0.3);
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+        }
+        
+        /* Header Styling */
+        header {
+            background: rgba(10, 14, 23, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 198, 255, 0.2);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        /* Section Styling */
+        section {
+            padding: 5rem 0;
+        }
+        
+        section.bg-opacity-30 {
+            background-color: rgba(10, 14, 23, 0.8);
+        }
+        
+        /* Override text colors */
+        .text-white {
+            color: var(--text-primary) !important;
+        }
+        
+        .text-gray-300 {
+            color: var(--text-secondary) !important;
+        }
+        
+        .text-ice-primary {
+            color: var(--primary-color) !important;
+        }
+        
+        /* Section headings with decorative elements */
+        .section-heading {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        }
+        
+        /* Navigation Links */
+        nav a {
+            position: relative;
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+            transition: all 0.3s ease;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-color);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+        
+        nav a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(0deg, #060a14 0%, #0a0e17 100%);
+            border-top: 1px solid rgba(0, 198, 255, 0.2);
+            padding: 3rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section with fixed position -->
+    <header class="flex justify-between items-center">
+        <div class="logo text-xl font-bold">
+            <span class="text-ice-primary">BGMI</span> Manager
+        </div>
+        <nav class="flex gap-4">
+            <a href="{{ url_for('index') }}" class="text-white hover:text-blue-300">Dashboard</a>
+            <a href="#esports-news" class="text-white hover:text-blue-300">News</a>
+            <a href="#pro-players" class="text-white hover:text-blue-300">Players</a>
+            <a href="#tournaments" class="text-white hover:text-blue-300">Tournaments</a>
+            <a href="#features" class="text-white hover:text-blue-300">Features</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <h1 class="text-5xl font-bold text-white mb-6">
+                    <span class="text-ice-primary">Elevate</span> Your eSports Experience
+                </h1>
+                <p class="text-xl text-gray-300 mb-10 max-w-3xl mx-auto">
+                    BGMI Manager is the ultimate tournament management platform for eSports enthusiasts. From professional 
+                    tournaments to casual community events, our platform provides comprehensive tools for 
+                    tournament organizers, players, and fans.
+                </p>
+                <div class="flex justify-center gap-4 flex-wrap">
+                    <a href="{{ url_for('index') }}" class="gradient-button">Go to Dashboard</a>
+                    <a href="#features" class="gradient-button gradient-button-outline">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- eSports News Section -->
+    <section id="esports-news" class="py-20 bg-opacity-30 bg-black">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-white text-center mb-12 section-heading">eSports News & Updates</h2>
+            
+            <!-- News Category Tabs -->
+            <div class="flex justify-center mb-8 border-b border-gray-700 overflow-x-auto py-2">
+                <div class="news-tab active" data-target="global-news">Global</div>
+                <div class="news-tab" data-target="india-news">India</div>
+                <div class="news-tab" data-target="tournaments-news">Tournaments</div>
+                <div class="news-tab" data-target="bgmi-news">BGMI</div>
+                <div class="news-tab" data-target="tech-news">Tech & Updates</div>
+            </div>
+            
+            <!-- News Content -->
+            <div class="news-content-container">
+                <!-- Global News -->
+                <div id="global-news" class="news-content active">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="frost-glass p-6 rounded-lg">
+                            <div class="text-ice-primary text-sm mb-2">May 10, 2025</div>
+                            <h3 class="text-xl font-semibold mb-2">PMWL 2025 Announced with Record Prize Pool</h3>
+                            <p class="text-gray-300 mb-4">The PUBG Mobile World League 2025 has been announced with a record-breaking prize pool of $10 million, marking the largest prize pool in mobile eSports history.</p>
+                            <a href="#" class="text-ice-primary hover:underline inline-flex items-center">Read more <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                        
+                        <div class="frost-glass p-6 rounded-lg">
+                            <div class="text-ice-primary text-sm mb-2">May 8, 2025</div>
+                            <h3 class="text-xl font-semibold mb-2">Tencent Reveals New Anti-Cheat System for Mobile Games</h3>
+                            <p class="text-gray-300 mb-4">Tencent has unveiled an AI-powered anti-cheat system that will soon be implemented across all their mobile eSports titles to ensure fair gameplay.</p>
+                            <a href="#" class="text-ice-primary hover:underline inline-flex items-center">Read more <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                        
+                        <div class="frost-glass p-6 rounded-lg">
+                            <div class="text-ice-primary text-sm mb-2">May 5, 2025</div>
+                            <h3 class="text-xl font-semibold mb-2">Mobile eSports Surpasses PC in Global Viewership</h3>
+                            <p class="text-gray-300 mb-4">For the first time, mobile eSports has surpassed PC gaming in global viewership numbers, with BGMI, Free Fire, and Mobile Legends leading the charge.</p>
+                            <a href="#" class="text-ice-primary hover:underline inline-flex items-center">Read more <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- India News -->
+                <div id="india-news" class="news-content">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="frost-glass p-6 rounded-lg">
+                            <div class="text-ice-primary text-sm mb-2">May 9, 2025</div>
+                            <h3 class="text-xl font-semibold mb-2">Indian Government Announces National eSports Policy</h3>
+                            <p class="text-gray-300 mb-4">The Ministry of Electronics and IT has announced a comprehensive national eSports policy, recognizing competitive gaming as an official sport in India.</p>
+                            <a href="#" class="text-ice-primary hover:underline inline-flex items-center">Read more <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                        
+                        <div class="frost-glass p-6 rounded-lg">
+                            <div class="text-ice-primary text-sm mb-2">May 7, 2025</div>
+                            <h3 class="text-xl font-semibold mb-2">BGMI Pro League Season 5 Dates Announced</h3>
+                            <p class="text-gray-300 mb-4">The fifth season of BGMI Pro League will commence on June 15, 2025, with 24 top teams competing for a prize pool of ₹2 crore.</p>
+                            <a href="#" class="text-ice-primary hover:underline inline-flex items-center">Read more <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                        
+                        <div class="frost-glass p-6 rounded-lg">
+                            <div class="text-ice-primary text-sm mb-2">May 3, 2025</div>
+                            <h3 class="text-xl font-semibold mb-2">Team SouL Signs New Roster for Upcoming Season</h3>
+                            <p class="text-gray-300 mb-4">Popular eSports organization Team SouL has announced a completely revamped roster for the upcoming BGMI competitive season.</p>
+                            <a href="#" class="text-ice-primary hover:underline inline-flex items-center">Read more <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tournaments News -->
+                <div id="tournaments-news" class="news-content">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="frost-glass p-6 rounded-lg">
+                            <div class="text-ice-primary text-sm mb-2">May 11, 2025</div>
+                            <h3 class="text-xl font-semibold mb-2">BGMI World Cup 2025 Qualifiers Begin Next Month</h3>
+                            <p class="text-gray-300 mb-4">The qualifiers for the much-anticipated BGMI World Cup 2025 will begin next month with over 1,000 teams expected to participate.</p>
+                            <a href="#" class="text-ice-primary hover:underline inline-flex items-center">Read more <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                        
+                        <div class="frost-glass p-6 rounded-lg">
+                            <div class="text-ice-primary text-sm mb-2">May 6, 2025</div>
+                            <h3 class="text-xl font-semibold mb-2">ESL Announces Mobile Gaming Championship</h3>
+                            <p class="text-gray-300 mb-4">ESL has announced a new Mobile Gaming Championship featuring BGMI, Free Fire, and COD Mobile with a combined prize pool of $1.5 million.</p>
+                            <a href="#" class="text-ice-primary hover:underline inline-flex items-center">Read more <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                        
+                        <div class="frost-glass p-6 rounded-lg">
+                            <div class="text-ice-primary text-sm mb-2">May 2, 2025</div>
+                            <h3 class="text-xl font-semibold mb-2">Campus Legends Tournament Expands to 100 Colleges</h3>
+                            <p class="text-gray-300 mb-4">The Campus Legends BGMI Tournament is expanding its reach to 100 colleges across India for its 2025 edition with scholarship prizes.</p>
+                            <a href="#" class="text-ice-primary hover:underline inline-flex items-center">Read more <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- BGMI News -->
+                <div id="bgmi-news" class="news-content">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="frost-glass p-6 rounded-lg">
+                            <div class="text-ice-primary text-sm mb-2">May 10, 2025</div>
+                            <h3 class="text-xl font-semibold mb-2">BGMI 3.0 Update Brings New Maps and Mechanics</h3>
+                            <p class="text-gray-300 mb-4">The highly-anticipated BGMI 3.0 update is rolling out with new maps, weapons, and gameplay mechanics that will change the meta.</p>
+                            <a href="#" class="text-ice-primary hover:underline inline-flex items-center">Read more <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                        
+                        <div class="frost-glass p-6 rounded-lg">
+                            <div class="text-ice-primary text-sm mb-2">May 8, 2025</div>
+                            <h3 class="text-xl font-semibold mb-2">BGMI Surpasses 200 Million Downloads in India</h3>
+                            <p class="text-gray-300 mb-4">Krafton announces that BGMI has crossed the 200 million download milestone in India, making it the most downloaded game in the country.</p>
+                            <a href="#" class="text-ice-primary hover:underline inline-flex items-center">Read more <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                        
+                        <div class="frost-glass p-6 rounded-lg">
+                            <div class="text-ice-primary text-sm mb-2">May 5, 2025</div>
+                            <h3 class="text-xl font-semibold mb-2">New Spectator Features Coming to BGMI</h3>
+                            <p class="text-gray-300 mb-4">Krafton is introducing enhanced spectator features for BGMI tournaments, including player stats overlay and interactive viewing options.</p>
+                            <a href="#" class="text-ice-primary hover:underline inline-flex items-center">Read more <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tech News -->
+                <div id="tech-news" class="news-content">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="frost-glass p-6 rounded-lg">
+                            <div class="text-ice-primary text-sm mb-2">May 9, 2025</div>
+                            <h3 class="text-xl font-semibold mb-2">New Gaming Phones Optimized for BGMI Performance</h3>
+                            <p class="text-gray-300 mb-4">Several smartphone manufacturers have announced new gaming devices specifically optimized for BGMI with high refresh rates and cooling systems.</p>
+                            <a href="#" class="text-ice-primary hover:underline inline-flex items-center">Read more <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                        
+                        <div class="frost-glass p-6 rounded-lg">
+                            <div class="text-ice-primary text-sm mb-2">May 7, 2025</div>
+                            <h3 class="text-xl font-semibold mb-2">Cloud Gaming Service Launches BGMI Subscription</h3>
+                            <p class="text-gray-300 mb-4">A major cloud gaming service has launched a BGMI-specific subscription plan allowing players to experience the game at 120fps on any device.</p>
+                            <a href="#" class="text-ice-primary hover:underline inline-flex items-center">Read more <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                        
+                        <div class="frost-glass p-6 rounded-lg">
+                            <div class="text-ice-primary text-sm mb-2">May 4, 2025</div>
+                            <h3 class="text-xl font-semibold mb-2">AI-Powered Coaching Tools for BGMI Players</h3>
+                            <p class="text-gray-300 mb-4">New AI-powered coaching tools are being developed to help BGMI players analyze their gameplay and improve their strategies.</p>
+                            <a href="#" class="text-ice-primary hover:underline inline-flex items-center">Read more <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <a href="#" class="gradient-button">View All News</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pro Players Section -->
+    <section id="pro-players" class="py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-white text-center mb-8 section-heading">Elite BGMI Pro Players</h2>
+            <p class="text-xl text-center text-gray-300 mb-8 max-w-3xl mx-auto">
+                The best professional players who have mastered the battlegrounds and dominate the competitive scene.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Player 1 -->
+                <div class="player-card overflow-hidden">
+                    <div class="relative h-64 overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent z-10"></div>
+                        <img src="https://via.placeholder.com/300x400" alt="Player Image" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 z-20 p-4 w-full">
+                            <h3 class="text-xl font-bold text-white">Jonathan</h3>
+                            <p class="text-ice-primary">Team SouL</p>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-300">Kills</span>
+                            <span class="text-white">5,428</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-300">Tournaments Won</span>
+                            <span class="text-white">24</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-300">MVPs</span>
+                            <span class="text-white">37</span>
+                        </div>
+                        <a href="#" class="text-ice-primary hover:underline text-sm block mt-4 inline-flex items-center">View full profile <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                    </div>
+                </div>
+                
+                <!-- Player 2 -->
+                <div class="player-card overflow-hidden">
+                    <div class="relative h-64 overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent z-10"></div>
+                        <img src="https://via.placeholder.com/300x400" alt="Player Image" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 z-20 p-4 w-full">
+                            <h3 class="text-xl font-bold text-white">Scout</h3>
+                            <p class="text-ice-primary">Team XSpark</p>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-300">Kills</span>
+                            <span class="text-white">4,982</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-300">Tournaments Won</span>
+                            <span class="text-white">19</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-300">MVPs</span>
+                            <span class="text-white">32</span>
+                        </div>
+                        <a href="#" class="text-ice-primary hover:underline text-sm block mt-4 inline-flex items-center">View full profile <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                    </div>
+                </div>
+                
+                <!-- Player 3 -->
+                <div class="player-card overflow-hidden">
+                    <div class="relative h-64 overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent z-10"></div>
+                        <img src="https://via.placeholder.com/300x400" alt="Player Image" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 z-20 p-4 w-full">
+                            <h3 class="text-xl font-bold text-white">Mortal</h3>
+                            <p class="text-ice-primary">Team SouL</p>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-300">Kills</span>
+                            <span class="text-white">4,156</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-300">Tournaments Won</span>
+                            <span class="text-white">21</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-300">MVPs</span>
+                            <span class="text-white">29</span>
+                        </div>
+                        <a href="#" class="text-ice-primary hover:underline text-sm block mt-4 inline-flex items-center">View full profile <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                    </div>
+                </div>
+                
+                <!-- Player 4 -->
+                <div class="player-card overflow-hidden">
+                    <div class="relative h-64 overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent z-10"></div>
+                        <img src="https://via.placeholder.com/300x400" alt="Player Image" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 z-20 p-4 w-full">
+                            <h3 class="text-xl font-bold text-white">Dynamo</h3>
+                            <p class="text-ice-primary">Hydra Esports</p>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-300">Kills</span>
+                            <span class="text-white">4,783</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-300">Tournaments Won</span>
+                            <span class="text-white">18</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-300">MVPs</span>
+                            <span class="text-white">26</span>
+                        </div>
+                        <a href="#" class="text-ice-primary hover:underline text-sm block mt-4 inline-flex items-center">View full profile <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <a href="#" class="gradient-button">View All Pro Players</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- eSports Statistics Section -->
+    <section class="py-16 bg-opacity-30 bg-black">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-white text-center mb-12 section-heading">eSports By The Numbers</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="stats-card p-6 text-center">
+                    <div class="text-4xl font-bold text-white mb-2">$200M+</div>
+                    <p class="text-ice-primary text-lg">Total BGMI Prize Money</p>
+                    <p class="text-sm text-gray-300 mt-2">Awarded across all tournaments since 2021</p>
+                </div>
+                
+                <div class="stats-card p-6 text-center">
+                    <div class="text-4xl font-bold text-white mb-2">125M+</div>
+                    <p class="text-ice-primary text-lg">Monthly Active Players</p>
+                    <p class="text-sm text-gray-300 mt-2">Making it one of the most popular games in India</p>
+                </div>
+                
+                <div class="stats-card p-6 text-center">
+                    <div class="text-4xl font-bold text-white mb-2">7,500+</div>
+                    <p class="text-ice-primary text-lg">Professional Players</p>
+                    <p class="text-sm text-gray-300 mt-2">Competing in tournaments across the country</p>
+                </div>
+                
+                <div class="stats-card p-6 text-center">
+                    <div class="text-4xl font-bold text-white mb-2">45M+</div>
+                    <p class="text-ice-primary text-lg">Tournament Viewers</p>
+                    <p class="text-sm text-gray-300 mt-2">Watched the BGMI Masters Series 2024</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upcoming Tournaments Section -->
+    <section id="tournaments" class="py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-white text-center mb-8 section-heading">Major Upcoming Tournaments</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div class="frost-glass p-6 rounded-lg">
+                    <div class="tournament-timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="text-ice-primary mb-1">May 20-25, 2025</div>
+                            <h3 class="text-xl font-semibold text-white mb-2">BGMI Pro League Season 5</h3>
+                            <p class="text-gray-300">The premier BGMI tournament featuring 24 professional teams competing for a ₹2 crore prize pool.</p>
+                            <div class="mt-3 flex justify-between text-sm">
+                                <span class="text-gray-400">Prize Pool: ₹2,00,00,000</span>
+                                <span class="text-gray-400">Location: Mumbai</span>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="text-ice-primary mb-1">June 10-15, 2025</div>
+                            <h3 class="text-xl font-semibold text-white mb-2">BGMI Masters Series</h3>
+                            <p class="text-gray-300">An invitational tournament featuring top teams from across Asia competing for glory.</p>
+                            <div class="mt-3 flex justify-between text-sm">
+                                <span class="text-gray-400">Prize Pool: ₹1,50,00,000</span>
+                                <span class="text-gray-400">Location: Delhi</span>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="text-ice-primary mb-1">July 5-20, 2025</div>
+                            <h3 class="text-xl font-semibold text-white mb-2">BGMI World Cup 2025</h3>
+                            <p class="text-gray-300">The most prestigious global BGMI tournament with teams from all regions competing for the world title.</p>
+                            <div class="mt-3 flex justify-between text-sm">
+                                <span class="text-gray-400">Prize Pool: $3,000,000</span>
+                                <span class="text-gray-400">Location: Singapore</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 gap-6">
+                    <div class="frost-glass p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold text-white mb-4">Register Your Tournament</h3>
+                        <p class="text-gray-300 mb-4">Use our tournament management system to organize and manage your BGMI tournaments efficiently.</p>
+                        <ul class="text-gray-300 space-y-2 mb-6">
+                            <li class="flex items-start">
+                                <span class="text-ice-primary mr-2">✓</span>
+                                <span>Automatic points calculation and standings</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-ice-primary mr-2">✓</span>
+                                <span>Real-time updates for participants and viewers</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-ice-primary mr-2">✓</span>
+                                <span>Export results in multiple formats</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-ice-primary mr-2">✓</span>
+                                <span>Shareable tournament standings with custom links</span>
+                            </li>
+                        </ul>
+                        <a href="{{ url_for('index') }}" class="gradient-button inline-block">Create Tournament</a>
+                    </div>
+                    
+                    <div class="frost-glass p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold text-white mb-4">Tournament Organizing Tips</h3>
+                        <ul class="text-gray-300 space-y-3">
+                            <li class="flex items-start">
+                                <span class="text-ice-primary mr-2">1.</span>
+                                <span>Define clear rules and point systems before the tournament begins</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-ice-primary mr-2">2.</span>
+                                <span>Ensure all participants have access to the standings in real-time</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-ice-primary mr-2">3.</span>
+                                <span>Appoint dedicated observers and match referees</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-ice-primary mr-2">4.</span>
+                                <span>Create engaging content around the tournament for viewers</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 bg-opacity-30 bg-black">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-white text-center mb-12 section-heading">Powerful Tournament Management Features</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="feature-card p-6 text-center">
+                    <div class="feature-icon">😊</div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Easy Tournament Management</h3>
+                    <p class="text-gray-300">Easily manage esports tournaments from a single platform</p>
+                </div>
+                
+                <div class="feature-card p-6 text-center">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Beautiful Points Table</h3>
+                    <p class="text-gray-300">Team stats are automatically arranged in a beautiful table format</p>
+                </div>
+                
+                <div class="feature-card p-6 text-center">
+                    <div class="feature-icon">📈</div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Detailed Stats</h3>
+                    <p class="text-gray-300">Get stats right from match scores and player statistics, all organized neatly</p>
+                </div>
+                
+                <div class="feature-card p-6 text-center">
+                    <div class="feature-icon">🏆</div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Top Fraggers</h3>
+                    <p class="text-gray-300">See top fraggers list in the main page</p>
+                </div>
+                
+                <div class="feature-card p-6 text-center">
+                    <div class="feature-icon">🖼️</div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Support Logos</h3>
+                    <p class="text-gray-300">Set team logos and team colors in all forms</p>
+                </div>
+                
+                <div class="feature-card p-6 text-center">
+                    <div class="feature-icon">📝</div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Registration Form</h3>
+                    <p class="text-gray-300">Use registration form for participants</p>
+                </div>
+                
+                <div class="feature-card p-6 text-center">
+                    <div class="feature-icon">⚙️</div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Custom Points System</h3>
+                    <p class="text-gray-300">Set your own points system as per your requirements</p>
+                </div>
+                
+                <div class="feature-card p-6 text-center">
+                    <div class="feature-icon">🎮</div>
+                    <h3 class="text-xl font-semibold text-white mb-2">All Royal Battle Games</h3>
+                    <p class="text-gray-300">Add scoreboard for all types of your battle royale games</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Create Tournament CTA -->
+    <section class="py-16">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-white mb-8 text-center section-heading">Create and manage tournaments in a go.</h2>
+                
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="space-y-4">
+                        <p class="text-gray-300">• Easy creation using a single form</p>
+                        <p class="text-gray-300">• Manage multiple matches and teams</p>
+                        <p class="text-gray-300">• Add your own point system</p>
+                        <p class="text-gray-300">• Add or disqualify team with a single click</p>
+                        <p class="text-gray-300">• Create your own customized process</p>
+                        
+                        <div class="pt-4">
+                            <a href="{{ url_for('index') }}" class="gradient-button">Get Started</a>
+                        </div>
+                    </div>
+                    
+                    <div class="frost-glass p-4 rounded-lg">
+                        <img src="https://i.imgur.com/sample-image.png" alt="Tournament Management" class="w-full rounded">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4"><span class="text-ice-primary">BGMI</span> Manager</h3>
+                    <p class="text-gray-400">The ultimate tournament management platform for eSports enthusiasts and organizers.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="{{ url_for('index') }}" class="text-gray-400 hover:text-white">Dashboard</a></li>
+                        <li><a href="#features" class="text-gray-400 hover:text-white">Features</a></li>
+                        <li><a href="#tournaments" class="text-gray-400 hover:text-white">Tournaments</a></li>
+                        <li><a href="#pro-players" class="text-gray-400 hover:text-white">Pro Players</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">eSports Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">BGMI Official</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Tournament Rules</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Point Systems</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Professional Teams</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Connect With Us</h4>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+                            </svg>
+                        </a>
+                                                <a href="#" class="text-gray-400 hover:text-white">
+                                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                                        <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.858.048-1.054.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858-.182-.466-.398-.8-.748-1.15-.35-.35-.683-.566-1.15-.748-.353-.137-.882-.3-1.857-.344-1.024-.047-1.351-.058-3.807-.058h-.468z" clip-rule="evenodd"></path>
+                                                        <path d="M12.25 6.865a5.135 5.135 0 100 10.27 5.135 5.135 0 000-10.27zm0 8.468a3.333 3.333 0 110-6.666 3.333 3.333 0 010 6.666zm6.536-8.668a1.2 1.2 0 10-2.4 0 1.2 1.2 0 002.4 0z"></path>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
+                                        <p>&copy; 2025 BGMI Tournament Manager. All rights reserved.</p>
+                                    </div>
+                                </div>
+                            </footer>
+                            
+                            <script>
+                                // News tab functionality
+                                document.querySelectorAll('.news-tab').forEach(tab => {
+                                    tab.addEventListener('click', function() {
+                                        // Remove active class from all tabs and content
+                                        document.querySelectorAll('.news-tab').forEach(t => t.classList.remove('active'));
+                                        document.querySelectorAll('.news-content').forEach(c => c.classList.remove('active'));
+                                        
+                                        // Add active class to clicked tab
+                                        this.classList.add('active');
+                                        
+                                        // Show corresponding content
+                                        const target = this.getAttribute('data-target');
+                                        document.getElementById(target).classList.add('active');
+                                    });
+                                });
+                            </script>
+                        </body>
+                        </html>

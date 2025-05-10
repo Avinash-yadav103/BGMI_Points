@@ -5,38 +5,170 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shared BGMI Team Standings</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00c6ff;
+            --secondary-color: #8a2be2;
+            --accent-color: #ff4d4d;
+            --bg-dark: #0a0e17;
+            --bg-card: #131c2e;
+            --text-primary: #ffffff;
+            --text-secondary: #b8c7e0;
+            --frost-white: rgba(255, 255, 255, 0.1);
+        }
+        
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            background-image: 
+                radial-gradient(circle at 25% 15%, rgba(0, 198, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 85%, rgba(138, 43, 226, 0.1) 0%, transparent 50%),
+                url('https://i.imgur.com/qIxfvXU.png');
+            background-blend-mode: screen;
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .container {
+            background: rgba(19, 28, 46, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 198, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            padding: 2rem;
+            max-width: 1200px;
+        }
+        
+        .section-heading {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        }
+        
+        /* Glassmorphic Table */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            border-radius: 5px;
+            border: 1px solid rgba(0, 198, 255, 0.2);
+            overflow: hidden;
+        }
+        
+        th {
+            background: rgba(0, 198, 255, 0.1);
+            padding: 12px;
+            color: var(--primary-color);
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(0, 198, 255, 0.2);
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid var(--frost-white);
+            color: var(--text-primary);
+        }
+        
+        tr:hover {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+        }
+        
+        .ice-button {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            box-shadow: 0 0 15px rgba(0, 198, 255, 0.5);
+            text-decoration: none;
+        }
+        
+        .ice-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 198, 255, 0.7);
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 198, 255, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 198, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 198, 255, 0); }
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">Shared BGMI Team Standings</h1>
+<body>
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold mb-6 text-center text-white section-heading">Shared BGMI Team Standings</h1>
 
-        <table class="min-w-full bg-white">
-            <thead>
-                <tr>
-                    <th class="w-[50px] px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Rank</th>
-                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Team Name</th>
-                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Matches</th>
-                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Position Points</th>
-                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Finish Points</th>
-                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Total Points</th>
-                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Chicken Dinners</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for team in teams %}
-                <tr>
-                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ loop.index }}</td>
-                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 font-medium">{{ team.name }}</td>
-                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ team.matches_played }}</td>
-                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ team.position_points }}</td>
-                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ team.finish_points }}</td>
-                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ team.total_points }}</td>
-                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ team.chicken_dinners }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="overflow-x-auto">
+            <table class="min-w-full">
+                <thead>
+                    <tr>
+                        <th class="w-[50px] text-left">Rank</th>
+                        <th class="text-left">Team Name</th>
+                        <th class="text-left">Matches</th>
+                        <th class="text-left">Position Points</th>
+                        <th class="text-left">Finish Points</th>
+                        <th class="text-left">Total Points</th>
+                        <th class="text-left">Chicken Dinners</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for team in teams %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td class="font-medium">{{ team.name }}</td>
+                        <td>{{ team.matches_played }}</td>
+                        <td>{{ team.position_points }}</td>
+                        <td>{{ team.finish_points }}</td>
+                        <td>{{ team.total_points }}</td>
+                        <td>{{ team.chicken_dinners }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="text-center mt-6">
+            <a href="{{ url_for('landing_page') }}" class="ice-button">Return to Home</a>
+        </div>
     </div>
 </body>
 </html>
-
