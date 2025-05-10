@@ -1,12 +1,32 @@
-# BGMI Points Standings Sorter
+# BGMI Tournament Management System
 
-This project is a web application built using Flask that helps to efficiently sort BGMI points standings. It is designed to reduce time and manpower when creating PDFs for large tournaments.
+This project is a comprehensive web application built using Flask that helps efficiently manage BGMI (Battlegrounds Mobile India) tournaments. It features advanced points standings management, team tracking, and multiple export options with a professional gaming-themed UI.
+
+![BGMI Tournament Manager](https://i.imgur.com/qIxfvXU.png)
 
 ## Features
-- Sort and manage BGMI points standings easily.
-- Generate PDFs of sorted standings for tournament use.
-- Supports importing and exporting data in Excel format.
-- User-friendly interface to streamline tournament management.
+
+### Core Functionality
+- Sort and manage BGMI points standings with automatic calculations
+- Add and remove teams with detailed statistics tracking
+- Generate export files in multiple formats (PDF, Excel, Word)
+- User-friendly interface designed specifically for eSports tournaments
+
+### Advanced UI
+- Professional gaming-themed interface with frost-glass effect
+- Responsive design for all devices 
+- Animated interactive elements
+- Custom gaming typography and styling
+
+### Tournament Management
+- Track position points, finish points, and chicken dinners
+- Automatic calculation of total points and ranking
+- Real-time updates to standings
+
+### Sharing & Export Options
+- Create shareable links to tournament standings
+- Social media sharing integration (WhatsApp, Telegram)
+- Multiple export formats for tournament documentation
 
 ---
 
@@ -15,6 +35,7 @@ This project is a web application built using Flask that helps to efficiently so
 - **PDF Generation**: ReportLab (v3.6.14)
 - **Excel Manipulation**: OpenPyxl (v3.1.2)
 - **Word Document Support**: python-docx (v0.8.11)
+- **Frontend**: HTML5, CSS3, Tailwind CSS, JavaScript
 
 ---
 
@@ -22,8 +43,8 @@ This project is a web application built using Flask that helps to efficiently so
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/bgmi-points-sorter.git
-   cd bgmi-points-sorter
+   git clone https://github.com/your-username/bgmi-tournament-manager.git
+   cd bgmi-tournament-manager
    ```
 
 2. Set up a virtual environment (optional but recommended):
@@ -64,7 +85,7 @@ Ensure the following are installed on your system:
 ## File Structure
 
 ```
-bgmi-points-sorter/
+bgmi-tournament-manager/
 │
 ├── app.py              # Main Flask application
 ├── templates/          # HTML templates for the web interface
